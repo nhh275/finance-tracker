@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BudgetTracker — Finance Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">BudgetTracker</div>
+      <div class="nav" id="navContainer">
+        <button class="active" data-view="dashboard">Overview</button>
+        <button data-view="transactions">Transactions</button>
+        <button data-view="budgets">Budgets</button>
+      </div>
+      <div class="sidebar-foot">Local-first • v1.0</div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <h1 id="title">Financial Overview</h1>
+          <div class="subtitle" id="subtitle">A compact view of your personal cash flow.</div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="exportBtn">Export JSON</button>
+          <button class="btn primary" id="addBtn">+ Add transaction</button>
+        </div>
+      </header>
+
+      <!-- Dashboard view -->
+      <section id="dashboardView">
+        <div class="grid metrics">
+          <div class="card">
+            <div class="metric-label">Net balance</div>
+            <div class="metric-value" id="balance">£0.00</div>
+            <div class="kpi">All recorded transactions</div>
+          </div>
+          <div class="card">
+            <div class="metric-label">Income</div>
+            <div class="metric-value good" id="income">£0.00</div>
+            <div class="kpi" id="incomeKpi">This month</div>
+          </div>
+          <div class="card">
+            <div class="metric-label">Expenses</div>
+            <div class="metric-value bad" id="expenses">£0.00</div>
+            <div class="kpi" id="expenseKpi">This month</div>
+          </div>
+          <div class="card">
+            <div class="metric-label">Savings rate</div>
+            <div class="metric-value" id="savings">0.0%</div>
+            <div class="kpi">Income minus expenses</div>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-title">Cash flow <span class="muted">Last 6 months</span></div>
+            <canvas id="flowChart"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-title">Spending by category</div>
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="card-title">
+            Recent activity
+            <button class="btn" id="viewAllBtn" onclick="showView('transactions')">View all</button>
+          </div>
+          <div id="recent"></div>
+        </div>
+      </section>
+
+      <!-- Transactions view -->
+      <section id="transactionsView" class="hidden">
+        <div class="card">
+          <div class="card-title">Transactions</div>
+          <div class="table-wrap">
+            <div id="transactionTable"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Budgets view -->
+      <section id="budgetsView" class="hidden">
+        <div class="grid two">
+          <div class="card">
+            <div class="card-title">Monthly budgets</div>
+            <div id="budgetList"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Add / update budget</div>
+            <form id="budgetForm">
+              <label>Category
+                <select id="budgetCategory"></select>
+              </label>
+              <label>Monthly limit
+                <input id="budgetAmount" type="number" min="0.01" step="0.01" required>
+              </label>
+              <button class="btn primary">Save budget</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for adding transaction -->
+  <div class="modal" id="modal">
+    <div class="card">
+      <div class="card-title">
+        Add transaction
+        <button class="btn" id="closeModal">Close</button>
+      </div>
+      <form id="txForm">
+        <div class="row">
+          <label>Type
+            <select id="txType">
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+          <label>Amount (£)
+            <input id="txAmount" type="number" min="0.01" step="0.01" required>
+          </label>
+        </div>
+        <div class="row">
+          <label>Category
+            <select id="txCategory"></select>
+          </label>
+          <label>Date
+            <input id="txDate" type="date" required>
+          </label>
+        </div>
+        <label>Description
+          <input id="txDesc" maxlength="80" placeholder="e.g. Groceries">
+        </label>
+        <button class="btn primary">Save transaction</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div id="chartTooltip" class="chart-tooltip"></div>
+  <script src="script.js"></script>
+</body>
+</html>

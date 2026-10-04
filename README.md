@@ -5,4 +5,6 @@ Basic web app using just JavaScript, CSS and HTML.
 
 Simply run index.html (on liveserver for example) to use the web app. Changes will persist on your device until the cache is cleared or localStorage.clear() is run.
 
+Dummy data included to show functionality of site - this can be simply removed from demoTransactions at the top of script.js.
+
 Solo project by myself @nhh275
